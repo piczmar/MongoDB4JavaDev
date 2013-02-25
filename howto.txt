@@ -1,0 +1,29 @@
+Install mongodb:
+-----------------
+sudo mkdir -p /data/db
+sudo chmod 777 /data/db
+
+start mongodb:
+--------------
+mongod
+
+start mongodb console:
+-----------------------
+mongo
+
+in console execute:
+-------------------
+db.names.create({'name':'Marcin'})
+db.find()
+
+create maven project:
+---------------------
+
+mvn archetype:generate
+
+cd M101J/
+find .
+
+mvn compile exec:java -Dexec.mainClass="com.tengen.App"
+
+
