@@ -20,7 +20,13 @@ var j = db.users.findOne({'name':'marcin'})
 j.name='maefsd'
 db.users.save(j)
 db.users.find()
+exit
 
+> mongorestore dump/m101
+> mongo
+use m101
+show collections
+db.hw1.find()
 
 create maven project:
 ---------------------
