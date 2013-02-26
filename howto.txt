@@ -13,8 +13,14 @@ mongo
 
 in console execute:
 -------------------
-db.names.create({'name':'Marcin'})
+db.names.save({'name':'Marcin'})
 db.find()
+db.users.save({'name':'marcin','color':'Red'})
+var j = db.users.findOne({'name':'marcin'})
+j.name='maefsd'
+db.users.save(j)
+db.users.find()
+
 
 create maven project:
 ---------------------
@@ -25,5 +31,35 @@ cd M101J/
 find .
 
 mvn compile exec:java -Dexec.mainClass="com.tengen.App"
+
+
+setup Spark Micro Web Framework
+-------------------------------
+http://www.sparkjava.com/
+
+First, configure your pom.xml to use the spark repository:
+<repository>
+      <id>Spark repository</id>
+      <url>http://www.sparkjava.com/nexus/content/repositories/spark/</url>
+</repository>
+
+Add the spark dependency:
+<dependency>
+      <groupId>spark</groupId>
+      <artifactId>spark</artifactId>
+      <version>0.9.9.4-SNAPSHOT</version>
+</dependency>
+
+setup Freemarket templating framework:
+---------------------------------------
+<dependency>
+	<groupId>org.freemarker</groupId>
+	<artifactId>freemarker</artifactId>
+	<version>2.3.19</version>
+</dependency>
+            
+
+
+
 
 
