@@ -15,7 +15,7 @@
  *
  */
 
-package com.tengen;
+package com.tengen.week1;
 
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;

@@ -1,4 +1,4 @@
-package com.tengen;
+package com.tengen.week1;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

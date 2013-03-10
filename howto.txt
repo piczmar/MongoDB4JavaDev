@@ -36,7 +36,7 @@ mvn archetype:generate
 cd M101J/
 find .
 
-mvn compile exec:java -Dexec.mainClass="com.tengen.App"
+mvn compile exec:java -Dexec.mainClass="com.tengen.week1.App"
 
 
 setup Spark Micro Web Framework
