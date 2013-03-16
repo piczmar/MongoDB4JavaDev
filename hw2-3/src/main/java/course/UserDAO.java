@@ -69,6 +69,7 @@ public class UserDAO {
         // look in the user collection for a user that has this username
         // assign the result to the user variable.
         user = usersCollection.findOne(new BasicDBObject("_id", username));
+
         if (user == null) {
             System.out.println("User not in database");
             return null;
