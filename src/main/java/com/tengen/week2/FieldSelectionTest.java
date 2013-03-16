@@ -8,18 +8,21 @@ import java.util.Random;
 /**
  * Shows how to find docs.
  */
-public class FindCriteriaTest {
+public class FieldSelectionTest {
     public static void main(String[] args) throws UnknownHostException {
 
         MongoClient client = new MongoClient();
         DB db = client.getDB("course");
-        DBCollection collection = db.getCollection("insertTest");
+        DBCollection collection = db.getCollection("fieldSelectionTest");
 
         collection.drop();//clean collection
 
+        Random rand = new Random();
+
         for (int i = 0; i < 10; i++) {
-            collection.insert(new BasicDBObject("x", new Random().nextInt(2))
-                    .append("y", new Random().nextInt(100)));
+            collection.insert(new BasicDBObject("x", rand.nextInt(2))
+                    .append("y", rand.nextInt(100))
+                    .append("z", rand.nextInt(1000)));
         }
 
         //query by example
@@ -34,7 +37,8 @@ public class FindCriteriaTest {
         System.out.println(collection.count());
 
         System.out.println("Find all:");
-        DBCursor cur = collection.find(query);
+        //DBCursor cur = collection.find(query, new BasicDBObject("x", false));// get everything but x
+        DBCursor cur = collection.find(query, new BasicDBObject("y", true).append("_id", false));// get only y
         try {
             while (cur.hasNext()) {
                 System.out.println(cur.next());
