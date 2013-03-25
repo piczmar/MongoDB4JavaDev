@@ -126,11 +126,15 @@ public class BlogPostDAO {
         //   operator to append the comment on to any existing list of comments
         BasicDBObject comment = new BasicDBObject()
                 .append("body", body)
-                .append("author", name)
-                .append("email", email);
+                .append("author", name);
+        if (email != null && !"".equals(email)) {
+            comment.append("email", email);
+        }
 
         postsCollection.update(new BasicDBObject("permalink", permalink),
-                new BasicDBObject("$push", new BasicDBObject("comments", comment))
+                new BasicDBObject("$push", new BasicDBObject("comments", comment)),
+                false,
+                false
         );
     }
 
