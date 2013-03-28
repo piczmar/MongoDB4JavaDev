@@ -1,17 +1,11 @@
 package com.tengen.week2;
 
 import com.mongodb.*;
-import org.bson.types.ObjectId;
 
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
- * Shows how to insert Mongo DB documents
- * Check this out in mongo console:
- * mongo course
- *
- * db.insertTest.find()
+ * Shows how to find docs.
  */
 public class FindTest {
     public static void main(String[] args) throws UnknownHostException {
@@ -22,30 +16,25 @@ public class FindTest {
 
         collection.drop();//clean collection
 
-        DBObject doc = new BasicDBObject("x", 1);
-        System.out.println(doc);
-        collection.insert(doc);
-        System.out.println(doc);
-        //insert another doc, this time explicitly set id
-        doc = new BasicDBObject("_id", new ObjectId()).append("x", 2);
-        System.out.println(doc);
-        collection.insert(doc);
-        System.out.println(doc);
-
-        // you can also insert multiple at once
-        DBObject doc2 = new BasicDBObject("x", 3);
-        DBObject doc3 = new BasicDBObject("x", 4);
-        collection.insert(Arrays.asList(doc2, doc3));
-
-        //expect exception when inserting the same doc twice
-        try{
-            collection.insert(doc3);
-        }catch(Exception exc){
-            exc.printStackTrace();
+        for (int i = 0; i < 10; i++) {
+            collection.insert(new BasicDBObject("x", i));
         }
 
-        //but if you clean the ID the insert succeeds
-        doc3.removeField("_id");  // remove the "_id" field
-        collection.insert(doc3);      // second insert
+        System.out.println("Find one:");
+
+        DBObject one = collection.findOne();
+        System.out.println(one);
+
+        System.out.println("Find all:");
+        DBCursor cur = collection.find();
+        try {
+            while (cur.hasNext()) {
+                System.out.println(cur.next());
+            }
+        } finally {
+            cur.close();
+        }
+        System.out.println("Count:");
+        System.out.println(collection.count());
     }
 }
