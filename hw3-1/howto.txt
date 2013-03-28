@@ -1,0 +1,2 @@
+Import test data:
+mongoimport -d school -c students < students.json

@@ -1,0 +1,43 @@
+
+
+
+Write a program in the language of your choice that will remove the grade of type "homework" with the lowest score for each student from the dataset that you imported in HW 2.1. 
+HELP: import statement is:
+mongoimport -d students -c grades < grades.json
+
+Since each document is one grade, it should remove one document per student.
+
+Ans: hw22.groovy
+
+Now let us find the student who holds the 101st best grade across all grades:
+
+db.grades.find().sort({'score':-1}).skip(100).limit(1)
+
+{ "_id" : ObjectId("513257f68d6e7cb63d7b1ead"), "student_id" : 164, "type" : "exam", "score" : 87.06518186605459 }
+
+
+Now let us sort the students by student_id, score and see what the top five docs are:
+
+db.grades.find({},{'student_id':1, 'type':1, 'score':1, '_id':0}).sort({'student_id':1, 'score':1, }).limit(5)
+
+{ "student_id" : 0, "type" : "quiz", "score" : 16.28337833467709 }
+{ "student_id" : 0, "type" : "exam", "score" : 64.40706888325151 }
+{ "student_id" : 0, "type" : "homework", "score" : 80.31845193864314 }
+{ "student_id" : 1, "type" : "quiz", "score" : 11.45004974085635 }
+{ "student_id" : 1, "type" : "homework", "score" : 31.56114538077717 }
+
+
+The identify of the student with the highest average in the class with following query that uses the aggregation:
+
+db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{$avg:'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
+
+Ans:
+{
+        "result" : [
+                {
+                        "_id" : 124,
+                        "average" : 98.07817938033385
+                }
+        ],
+        "ok" : 1
+}
