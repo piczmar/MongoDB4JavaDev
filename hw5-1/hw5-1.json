@@ -1,0 +1,31 @@
+use hw5
+
+//db.posts.findOne()
+
+db.posts.aggregate([
+{
+	$unwind: '$comments'
+},
+{
+	$project:{
+		_id: 0,
+		author: '$comments.author'	
+	}
+}, 
+{
+	$group: {
+		_id: '$author',
+		cnt: {$sum: 1} 
+	}
+},
+{
+	$sort: {
+		cnt: -1
+	}
+}, 
+{
+	$limit: 1
+}
+])
+
+
