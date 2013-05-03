@@ -1,0 +1,8 @@
+use week5
+
+db.zips.aggregate([{
+	$group:{
+		_id:'$city',
+		postal_codes:{$push: '$_id'}
+	}
+}])

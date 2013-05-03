@@ -1,0 +1,9 @@
+use week5
+
+db.fruits.insert({ "_id" : 0, "a" : 1, "b" : 2, "c": ['apple', 'pear', 'orange'] })
+
+db.fruits.aggregate([{
+	$unwind: '$c'
+}])
+
+db.fruits.drop()

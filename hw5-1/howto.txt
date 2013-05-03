@@ -1,0 +1,11 @@
+Finding the most frequent author of comments on your blog
+In this assignment you will use the aggregation framework to find the most frequent author of comments on your blog. We will be using the same dataset as last week. 
+
+Import posts.json into your blog database as follows:
+mongoimport -d hw5 -c posts --drop < posts.json
+
+Now use the aggregation framework to calculate the author with the greatest number of comments. 
+
+To help you verify your work before submitting, the author with the least comments is Efrain Claw and he commented 384 times. 
+
+Result: hw5-1.json

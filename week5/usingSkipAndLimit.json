@@ -1,0 +1,17 @@
+use week5
+
+db.zips.aggregate([
+{
+	$sort: {
+		state: 1,
+		city: 1
+	}
+},
+{
+	$skip: 10
+},
+{
+	$limit: 5
+}
+
+])

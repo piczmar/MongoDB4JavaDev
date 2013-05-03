@@ -1,0 +1,27 @@
+use hw52
+db.zips.aggregate([
+
+{
+	$group: {
+		_id: {
+			state: '$state',
+			city: '$city'
+		},
+		sum: {$sum: '$pop'}
+	}
+},
+{
+	$match:{
+		'_id.state': { $in: [ 'CA', 'NY' ] },
+		sum: {$gt: 25000}
+	}
+}, 
+
+{
+	$group: {
+		_id: null,
+		average: {$avg: '$sum'}
+	}
+}
+
+])

@@ -1,0 +1,17 @@
+use week5
+
+db.zips.aggregate([{
+	$project: {
+		_id:0, // remove _id key
+		city: {$toLower:'$city'},
+		pop: '$pop',
+		details:{ 
+				zipCode: '$_id',
+				st: '$state'		
+		}
+
+	}
+}])
+
+
+

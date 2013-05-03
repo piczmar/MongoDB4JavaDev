@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.util.Random;
 
 /**
- * Shows how to find docs.
+ * Shows how to find docs with criteria.
  */
 public class FindCriteriaTest {
     public static void main(String[] args) throws UnknownHostException {
@@ -29,6 +29,7 @@ public class FindCriteriaTest {
 
         QueryBuilder builder = QueryBuilder.start("x").is(0).and("y").greaterThan(4).lessThan(50);
         DBObject query = builder.get();
+
 
         System.out.println("Count:");
         System.out.println(collection.count());

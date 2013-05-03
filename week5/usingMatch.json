@@ -1,0 +1,7 @@
+use week5
+
+db.zips.aggregate([{
+	$match: {
+		pop: {$gt: 100000}
+	}
+}])

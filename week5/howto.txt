@@ -1,0 +1,8 @@
+How to execute this file from mongo console?
+First load zips.json:
+
+mongo -d week5 -c zips zips.json
+
+Then execute usingAvg.json:
+
+mongo < usingAvg.json

@@ -1,0 +1,3 @@
+use week5
+
+db.zips.aggregate([{$group:{_id:'$state', pop:{$max:'$pop'}}}])
