@@ -1,0 +1,24 @@
+The following python queries are done, activities to tune up db are below each query:
+
+1. cursor = posts.find().sort('date', direction=-1).limit(10)
+
+db.posts.find().sort({date:-1}).limit(10).explain()
+db.posts.ensureIndex({date:-1})
+db.posts.find().sort({date:-1}).limit(10).explain()
+
+2. cursor = posts.find({'tags':tag}).sort('date', direction=-1).limit(10)
+
+db.posts.find({},{tags:1}).limit(2)
+db.posts.find({tags:"u'sphynx'"}).sort({date:-1}).limit(10).explain()
+db.posts.ensureIndex({tags:1})
+db.posts.find({tags:"dolphin"}).sort({date:-1}).limit(10).explain()
+
+3. post = posts.find_one({'permalink':permalink})
+
+db.posts.find({},{permalink:1}).limit(2)
+db.posts.find({permalink: "TqoHkbHyUgLyCKWgPLqm"}).explain()
+db.posts.ensureIndex({permalink:1})
+db.posts.find({permalink: "TqoHkbHyUgLyCKWgPLqm"}).explain()
+
+
+Validation code: nffhe89hfkdjsbapajsfda89jks
