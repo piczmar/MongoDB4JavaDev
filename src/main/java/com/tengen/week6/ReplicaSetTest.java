@@ -21,11 +21,18 @@ public class ReplicaSetTest {
         collection.drop();
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            try {
-                collection.insert(new BasicDBObject("_id", i));
-                System.out.println("Inserted doc " + i);
-            } catch (MongoException exc) {
-                System.out.println(exc.getMessage());
+            for (int retries = 0; retries <= 5; retries++) {
+                try {
+                    collection.insert(new BasicDBObject("_id", i));
+                    System.out.println("Inserted doc " + i);
+                    break; // do not retry if inserted successfully
+                } catch(MongoException.DuplicateKey exc){
+                    System.out.println("Document already exists: " + i);
+                }catch (MongoException exc) {
+                    System.out.println(exc.getMessage());
+                    System.out.println("Retrying...");
+                    Thread.sleep(5000);
+                }
             }
             Thread.sleep(500);
         }
