@@ -1,0 +1,1 @@
+mongo --port 57017 < init-replica2.js
