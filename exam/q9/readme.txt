@@ -5,14 +5,14 @@ Imagine an electronic medical record database designed to hold the medical recor
 We need to decide on a shard key to shard the record collection. What's the best shard key for the record collection, provided that we are willing to run scatter gather operations to do research and run studies on various diseases and cohorts? That is, think mostly about the operational aspects of such a system.
 
 
-patient_id
+A. patient_id
 
-_id
+B. _id
 
-primary care physican (your principal doctor)
+C. primary care physican (your principal doctor)
 
-date and time when medical record was created
+D. date and time when medical record was created
 
-patient first name
+E. patient first name
 
-patient last name
+F. patient last name

@@ -1,21 +1,17 @@
 Final: Question 2
+Please use the Enron dataset you imported for the previous problem. For this question you will use the aggregation framework to figure out pairs of people that tend to communicate a lot. 
 
-Please use the Enron dataset you imported for the previous problem. For this question you will use the aggregation framework to figure out pairs of people that tend to communicate a lot. To do this, you will need to unwind the To list for each message. 
+Turns out that the top channel is veronica.espinoza@enron.com to recipients@enron.com, with 2181 messages. But that is not very interesting, so your task is to figure out the second most popular pair of sender and recipient and indicate it below. 
 
-This problem is a little tricky because a recipient may appear more than once in the To list for a message. You will need to fix that in a stage of the aggregation before doing your grouping and counting of (sender, recipient) pairs. 
-
-Which pair of people have the greatest number of messages in the dataset?
+Update: a few people have pointed out that a recipient sometimes appears more than once in the To header of a message. For our purposes, you can double count when that occurs. I did not consider it when designing the problem. 
 
 
-susan.mara@enron.com to alan.comnes@enron.com
 
-evelyn.metoyer@enron.com to kate.symes@enron.com
+A. susan.mara@enron.com to jeff.dasovich@enron.com
 
-susan.mara@enron.com to james.steffes@enron.com
+B. susan.mara@enron.com to richard.shapiro@enron.com
 
-soblander@carrfut.com to soblander@carrfut.com
+C. soblander@carrfut.com to soblander@carrfut.com
 
-susan.mara@enron.com to richard.shapiro@enron.com
-
-susan.mara@enron.com to jeff.dasovich@enron.com
+D .susan.mara@enron.com to james.steffes@enron.com
 

@@ -1,0 +1,26 @@
+use enron
+
+db.messages.aggregate([
+	{
+	$project: {
+		_id:0, // remove _id key,
+		from: '$headers.From',
+		to: '$headers.To'
+	}
+	},
+	{
+		$unwind: '$to'
+	},
+	{
+		$match: {
+			from: 'andrew.fastow@enron.com',
+			to: 'jeff.skilling@enron.com'
+		}
+	},
+	{
+		$group:{
+		 _id : null,
+          total : { $sum : 1 }
+		}
+	}
+])

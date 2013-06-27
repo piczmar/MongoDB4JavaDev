@@ -20,12 +20,12 @@ Suppose you have a collection of students of the following form:
 Now suppose that basic inserts into the collection, which only include the last name, first name and student_id, are too slow. What could potentially improve the speed of inserts. Check all that apply.
 
 
-Add an index on last_name, first_name if one does not already exist.
+A. Add an index on last_name, first_name if one does not already exist.
 
-Set w=0, j=0 on writes
+B. Set w=0, j=0 on writes
 
-Remove all indexes from the collection
+C. Remove all indexes from the collection
 
-Provide a hint to MongoDB that it should not use an index for the inserts
+D. Provide a hint to MongoDB that it should not use an index for the inserts
 
-Build a replica set and insert data into the secondary nodes to free up the primary nodes.
+E. Build a replica set and insert data into the secondary nodes to free up the primary nodes.

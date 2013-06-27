@@ -35,10 +35,10 @@ and get the following explain output.
 Check below all the statements that are true about the way MongoDB handled this query.
 
 
-The query did not utilize an index to figure out which documents match the find criteria.
+A. The query did not utilize an index to figure out which documents match the find criteria.
 
-The query used an index for the sorting phase.
+B. The query used an index for the sorting phase.
 
-The query returned 120,477 documents
+C. The query returned 120,477 documents
 
-The query performed a full collection scan
+D. The query performed a full collection scan

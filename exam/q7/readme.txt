@@ -37,12 +37,12 @@ When you are done removing the orphan images from the collection, there should b
 Hint: you might consider creating an index or two or your program will take a long time to run. 
 
 
-43,434
+A. 43,434
 
-34,204
+B. 34,204
 
-49,123
+C. 49,123
 
-45,044
+D. 45,044
 
-50,054
+E. 50,054
