@@ -17,12 +17,8 @@
 
 package course;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
+import com.mongodb.*;
+import org.bson.BSONObject;
 
 import java.util.List;
 
@@ -115,7 +111,25 @@ public class BlogPostDAO {
 	// Add code to increment the num_likes for the 'ordinal' comment
 	// that was clicked on.
 	// provided you use num_likes as your key name, no other changes should be required
-	// alternatively, you can use whatever you like but will need to make a couple of other 
+	// alternatively, you can use whatever you like but will need to make a couple of other
 	// changes to templates and post retrieval code.
+        DBObject searchClause = new BasicDBObject("permalink", permalink);
+        DBCursor curr = postsCollection.find(searchClause);
+        if (curr.hasNext()) {
+            BasicDBObject post = (BasicDBObject) curr.next();
+            BasicDBList comments = (BasicDBList) post.get("comments");
+            BasicDBObject comment = (BasicDBObject) comments.get(ordinal);
+            Object numLikes = comment.get("num_likes");
+            if (numLikes == null) {
+                comment.append("num_likes", 1);
+            } else {
+                Integer newNum = ((Integer) numLikes) + 1;
+                comment.remove("num_likes");
+                comment.append("num_likes", newNum);
+            }
+            comments.set(ordinal, comment);
+            post.put("comments", comments);
+            postsCollection.update(searchClause, post);
+        }
     }
 }
