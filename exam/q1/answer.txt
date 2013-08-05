@@ -1,0 +1,4 @@
+Run 
+mongo < q1.json
+
+The answer is 3.

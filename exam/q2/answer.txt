@@ -1,0 +1,3 @@
+Run mongo < q2.json
+
+Answer: B: from susan.mara@enron.com to richard.shapiro@enron.com

@@ -1,0 +1,4 @@
+
+> db.profile.find({ns:{$regex:"school2.students.*"}}).sort({millis:-1}).limit(2).pretty()
+
+Ans: D. 15820

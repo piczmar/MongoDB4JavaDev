@@ -1,0 +1,23 @@
+use q7
+db.albums.findOne();
+db.images.findOne();
+
+
+print("Sunrises before: " + db.images.find({tags: {$in: ['sunrises']}}).count());
+
+var cur = db.images.find();
+var cnt = 0;
+print("Total images (before): " + db.images.count());
+cur.forEach( function(myDoc) { 
+		var res = db.albums.find({images: {$in: [myDoc._id]}});
+		if(res.count()<1){
+			cnt++;
+			db.images.remove({_id: myDoc._id});
+		}
+	} );
+print("Removed: " +  cnt);
+print("Total images (after): " + db.images.count());
+
+print("Sunrises after: " + db.images.find({tags: {$in: ['sunrises']}}).count());
+
+

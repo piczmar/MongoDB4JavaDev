@@ -1,6 +1,6 @@
 use hw53
 
-db.students.aggregate([
+db.grades.aggregate([
 
 {
 	$unwind:'$scores'
@@ -31,5 +31,11 @@ db.students.aggregate([
 },
 {
 	$sort: {avg: 1}
+},
+{
+	$group:
+        { _id : null,
+        classId:  { $last: "$_id.class" }
+	}
 }
 ])

@@ -1,0 +1,3 @@
+A. This query performs a collection scan.
+B. The query uses an index to determine the order in which to return result documents.	
+E. The query visits 46462 documents.

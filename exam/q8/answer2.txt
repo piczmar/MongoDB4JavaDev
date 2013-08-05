@@ -1,0 +1,3 @@
+D: 1
+
+After first insert _id is assigned to object and duplicate key error is thrown when the same object is inserted again.
