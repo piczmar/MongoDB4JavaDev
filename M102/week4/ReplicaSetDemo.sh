@@ -2,12 +2,9 @@
 # mongo help - explains parameters used
 mkdir -p ~/data/1 ~/data/2 ~/data/3
 cd ~/data
-mkdir ~/data/1
-mkdir ~/data/2
-mkdir ~/data/3
-mongod --rest --replSet abc --dbpath 1 --port 27001 --smallfiles --oplogSize 50 --logpath log.1 --logappend --fork
-mongod --rest --replSet abc --dbpath 2 --port 27002 --smallfiles --oplogSize 50 --logpath log.2 --logappend --fork
-mongod --rest --replSet abc --dbpath 3 --port 27003 --smallfiles --oplogSize 50 --logpath log.3 --logappend --fork
+mongod --rest --replSet abc --dbpath ~/data/1 --port 27001 --smallfiles --oplogSize 50 --logpath log.1 --logappend --fork
+mongod --rest --replSet abc --dbpath ~/data/2 --port 27002 --smallfiles --oplogSize 50 --logpath log.2 --logappend --fork
+mongod --rest --replSet abc --dbpath ~/data/3 --port 27003 --smallfiles --oplogSize 50 --logpath log.3 --logappend --fork
 
 :' now replica set is running but not initialized yet
   you can check that when you connect to mongo shell that there is no master, e.g.:
