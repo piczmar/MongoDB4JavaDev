@@ -1,0 +1,89 @@
+mkdir -p data/config_server data/s1 data/s2
+
+Start config server:
+mongod --configsvr --dbpath data/config_server
+
+Import from dump:
+mongorestore --port 27019 gene_backup/config_server
+
+Check config server works OK:
+mongo localhost:27019/config
+	configsvr>  db.chunks.find().pretty()
+
+	Check shards config:	
+	configsvr> db.shards.find()
+	Gives result:
+	{ "_id" : "s1", "host" : "s1/genome_svr1:27501,genome_svr2:27502,genome_svr2:27503" }
+	{ "_id" : "s2", "host" : "s2/genome_svr4:27601,genome_svr5:27602,genome_svr5:27603" }
+
+As we setup new environment and we only need 1 server per shard (no replica set) we need to reconfigure shards on config server before we start servers for shards (s1 and s2):
+
+
+	configsvr> var s1 = db.shards.find()[0]
+	configsvr> var s2 = db.shards.find()[1]
+	configsvr> s1.host = "localhost:27501"
+	configsvr> s2.host = "localhost:27601"
+	configsvr> db.shards.save(s1)
+	configsvr> db.shards.save(s2)
+	configsvr> db.shards.find()
+	Gives result:
+	{ "_id" : "s1", "host" : "localhost:27501" }
+	{ "_id" : "s2", "host" : "localhost:27601" }
+
+Shut down config server
+Start 1st shard server (S1) and import data:
+mongod --shardsvr --dbpath data/s1 --port 27501
+mongorestore --port 27501 gene_backup/s1/ --oplogReplay
+Shut down S1.
+
+Start 2nd shard server (S2) and import data:
+mongod --shardsvr --dbpath data/s2 --port 27601
+mongorestore --port 27601 gene_backup/s2/ --oplogReplay
+Shut down S2.
+
+Now start all servers:
+mongod --configsvr --dbpath data/config_server --fork --logpath cfg.log
+mongod --shardsvr --dbpath data/s1 --port 27501 --fork --logpath s1.log
+mongod --shardsvr --dbpath data/s2 --port 27601 --fork --logpath s2.log
+
+Start mongos.
+The dumps were created with Mongo 2.2, so to start mongos we need to upgrade:
+	First stop the ballancer
+	mongo --port 27019 --eval "sh.stopBalancer()"
+
+	Then start mongos with option 'upgrade'
+	mongos --upgrade --configdb localhost:27019
+
+now we can already connect to mongos:
+	mongo
+	mongos> sh.status()
+
+Create index:
+  mongos> db.elegans.ensureIndex({N2:1,mutant:1} )
+	mongos> db.elegans.getIndexes()
+
+Import new collection:
+	mongoimport -d snps -c problem11 problem11.json
+
+Using the aggregation framework, answer the question: how many unique N2/mutant pairs are there in this collection? (Assume the values as case sensitive - so 'a' and 'A' are different values for uniqueness purposes.)
+
+Ans.:
+
+db.problem11.aggregate([
+	{
+		$group:{
+			_id : { N2: "$N2", mutant: "$mutant"}, 
+			cnt: {$sum: 1}	
+		} 
+	}
+]).result.length
+
+
+
+
+
+
+
+
+
+

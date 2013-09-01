@@ -1,0 +1,69 @@
+HW6.1:
+mkdir -p data/svr1 data/svr2 data/cfg
+
+Start single mongo instance
+	mongod
+Init single mongo instance
+	mongo --shell localhost/week6 week6.js
+	> homework.init()
+
+	Verify: 
+	> db.trades.stats()
+
+Stop single mongo instance.
+
+Start shard server and config server on default ports (shardsvr:27018, configsvr = 27019)
+
+	mongod --shardsvr --dbpath data/svr1
+	mongod --configsvr --dbpath data/cfg
+
+Wait for config server to preallocate journal file, this may take a while.
+
+Start mongos:
+	mongos --configdb your_host_name:27019
+	
+Connect to mongos with the shell:
+	mongo --shell localhost/week6 week6.js
+
+Add 1st shard:
+	> sh.addShard('thinkpad:27018')
+  > sh.status()
+
+	Show status on collection:
+	>	db.trades.stats()
+
+Shard collection:
+	Enable shardind on database:
+	> sh.enableSharding('week6')
+	Create shard index on collection:
+	> db.trades.ensureIndex( { ticker:1, time:1 } )
+	Shard collection on created index:
+	> sh.shardCollection("week6.trades",{ ticker:1, time:1 })
+	Verify collection is sharded:
+	> db.trades.stats()
+
+Start new shard server:
+	mongod --shardsvr --dbpath data/svr2 --port 29018
+
+Add 2nd shard:
+	> sh.addShard('thinkpad:29018')
+  > sh.status() 	
+
+After sharding the collection, look at the chunks which exist:
+	> use config
+	> db.chunks.find()
+	or:
+	> db.chunks.find({}, {min:1,max:1,shard:1,_id:0,ns:1})
+
+
+	Now wait for the balancer to move data among the two shards more evenly. 
+	Periodically run:
+		> use config
+		> db.chunks.find( { ns:"week6.trades" }, {min:1,max:1,shard:1,_id:0} ).sort({min:1})
+
+		and/or:
+		db.chunks.aggregate( [
+		 { $match : { ns : "week6.trades" } } , 
+		 { $group : { _id : "$shard", n : { $sum : 1 } } }
+		] )
+
