@@ -1,0 +1,22 @@
+1. Check how the collections perform before setting indexes:
+db.posts.find({}).sort({'date':-1}).explain()
+db.posts.find({tags:'january'}).explain()
+db.posts.find({permalink:'cxzdzjkztkqraoqlgcru'}).explain()
+
+2. Add indexes:
+db.posts.ensureIndex({date:-1})
+db.posts.ensureIndex({tags:1})
+db.posts.ensureIndex({permalink:1})
+
+3. Check how the collections perform after setting indexes and compare results:
+db.posts.find({}).sort({'date':-1}).explain()
+db.posts.find({tags:'january'}).explain()
+db.posts.find({permalink:'cxzdzjkztkqraoqlgcru'}).explain()
+
+4. To check whether you have added the right index on the posts collection, run
+	cd validate
+	npm install
+	node hw4-3_validate.js
+You don't need to have the blog running for validate to succeed.
+You might want to look at the blog code to see what queries it does to the posts collection. they need to be fast.
+Need to import posts.json.
