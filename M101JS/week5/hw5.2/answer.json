@@ -1,0 +1,35 @@
+// first import: 
+// mongoimport -d hw52 -c zips zips.json
+
+use hw52;
+
+var zips = db.zips;
+if(zips.count()>0){
+	db.zips.aggregate([
+		{
+			$group: {
+				_id: {
+					state: '$state',
+					city: '$city'
+				},
+				sum: {$sum: '$pop'}
+			}
+		},
+		{
+			$match:{
+				'_id.state': { $in: [ 'CA', 'NY' ] },
+				sum: {$gt: 25000}
+			}
+		}, 
+
+		{
+			$group: {
+				_id: null,
+				average: {$avg: '$sum'}
+			}
+		}
+	])
+	
+}else{
+	print ("Collection is empty, first do 'mongoimport -d hw52 -c zips zips.json'");
+}

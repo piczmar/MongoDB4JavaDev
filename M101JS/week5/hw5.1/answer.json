@@ -1,0 +1,31 @@
+//	calculate the author with the greatest number of comments
+
+use blog
+// db.posts.find({},{comments: 0, body: 0}).limit(1)
+
+db.posts.aggregate([
+	{
+		$unwind: "$comments"
+	},
+	{
+		$project: {
+			// email : "$comments.email",
+			author: "$comments.author",
+			_id: 0
+		}
+	},
+	{
+		$group: {
+			_id: {Author: "$author"},
+	        numOfComments : { $sum : 1 }
+		}
+	},
+	{
+		$sort: {
+			numOfComments: -1
+		}
+	},
+	{
+		$limit: 1
+	}
+])
